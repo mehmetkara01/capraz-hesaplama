@@ -11,7 +11,11 @@
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
+        #total-win-title {
+            color: #bbff00; /* Kırmızı bir renk */
+        }
         body {
+
             font-family: Arial, sans-serif;
             background-color: #121212;
             color: #E0E0E0;
@@ -81,11 +85,15 @@
             border-color: #018786;
         }
         .warning {
-            color: #CF6679;
-            font-size: 0.8em;
+            color: #cf6679;
+            font-size: 0.9em;
             margin-top: 20px;
+            padding: 10px;
+            background-color: #2c2c2c;
+            border: 1px solid #cf6679;
+            border-radius: 5px;
             text-align: center;
-        }
+          }
     </style>
 </head>
 <body>
@@ -117,21 +125,22 @@
 
             <div class="form-group">
                 <label for="amount">Birinci Orana Oynadığınız Miktar:</label>
-                <input type="number" id="amount" class="form-control" placeholder="Kaç para basacan aq yazsana şuraya" required>
+                <input type="number" id="amount" class="form-control" placeholder="Kaç para bastın aq yazsana şuraya" required>
                 <div id="amountError" class="error">Lütfen geçerli bir miktar girin.</div>
             </div>
 
             <div class="form-group">
                 <label for="bonusRate">Kayıp Bonusu Oranı (%):</label>
-                <input type="number" id="bonusRate" class="form-control" placeholder="Kayıp bonusu yüksek diye mal mal sitelerden oynama aq" step="0.01">
+                <input type="number" id="bonusRate" class="form-control" placeholder="Kayıp bonusu yüksek diye sikilme aman :d" step="0.01">
             </div>
 
             <button type="submit" class="btn btn-success btn-block">Hesapla</button>
         </form>
         <div id="result"></div>
         <div id="warning" class="warning">
-            küsüratları basıp siteden ban yeme amk salagı  :)
-        </div>
+            Küsüratlı basıp siteden ban yeme amk salagı  :D
+          </div>
+    
     </div>
 
     <script>
@@ -181,7 +190,7 @@
                 resultDiv.innerHTML = `
                     <div class="result-item"><span>Toplam harcanan miktar:</span> ${formatCurrency(totalAmount)} ₺</div>
                     <div class="result-item"><span>İkinci orana atmanız gereken miktar:</span> ${formatCurrency(secondAmount)} ₺</div>
-                    <div class="result-item"><span>Toplam kazanç :</span> ${formatCurrency(totalWin)} ₺</div>
+                    <div class="result-item"><span id="total-win-title">Toplam kazanç :</span> ${formatCurrency(totalWin)} ₺</div>
                 `;
     
                 // Müzik çalmaya başla
