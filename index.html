@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Çaprazmatik</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nerko+One&family=Playwrite+CU:wght@100..400&display=swap" rel="stylesheet">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #E0E0E0;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: #1E1E1E;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.7);
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
+        }
+        h1 {
+            margin-bottom: 20px;
+            color: #BB86FC;
+            font-family: 'Nerko One', 'Playwrite CU', sans-serif; /* İki fontu ekledik */
+        }
+        .error {
+            color: #CF6679;
+            font-size: 0.8em;
+            margin-bottom: 10px;
+            display: none;
+        }
+        footer {
+            margin-top: 20px;
+            font-size: 0.8em;
+            text-align: center;
+            color: #B0B0B0;
+        }
+        #result {
+            text-align: left;
+            margin-top: 20px;
+        }
+        .result-item {
+            margin-bottom: 10px;
+        }
+        .result-item span {
+            font-weight: bold;
+            color: #BB86FC;
+        }
+        form .form-group label {
+            text-align: left;
+            display: block;
+        }
+        form .form-control {
+            background-color: #2C2C2C;
+            color: #E0E0E0;
+            border: 1px solid #444;
+        }
+        .gif-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .btn-success {
+            background-color: #03DAC5;
+            border-color: #03DAC5;
+        }
+        .btn-success:hover {
+            background-color: #018786;
+            border-color: #018786;
+        }
+        .warning {
+            color: #CF6679;
+            font-size: 0.8em;
+            margin-top: 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="gif-container">
+            <img src="./polat.gif" alt="Dönen GIF" width="200">
+        </div>
+        <h1 class="text-center">Mehmet Kara Çaprazmatik :)</h1>
+
+        <!-- Müzik çalar -->
+        <audio id="myAudio" autoplay>
+            <source src="your-song-url.mp3" type="audio/mp3">
+            Tarayıcınız bu sesi desteklemiyor.
+        </audio>
+
+        <form id="calculatorForm">
+            <div class="form-group">
+                <label for="firstRate">Birinci Oran:</label>
+                <input type="number" id="firstRate" class="form-control" placeholder="Birinci oranı gir hacım" step="0.01" required>
+                <div id="firstRateError" class="error">Lütfen geçerli bir oran girin.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="secondRate">İkinci Oran:</label>
+                <input type="number" id="secondRate" class="form-control" placeholder="İkinci oranı gir kekem" step="0.01" required>
+                <div id="secondRateError" class="error">Lütfen geçerli bir oran girin.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="amount">Birinci Orana Oynadığınız Miktar:</label>
+                <input type="number" id="amount" class="form-control" placeholder="Kaç para basacan aq yazsana şuraya" required>
+                <div id="amountError" class="error">Lütfen geçerli bir miktar girin.</div>
+            </div>
+
+            <div class="form-group">
+                <label for="bonusRate">Kayıp Bonusu Oranı (%):</label>
+                <input type="number" id="bonusRate" class="form-control" placeholder="Kayıp bonusu yüksek diye mal mal sitelerden oynama aq" step="0.01">
+            </div>
+
+            <button type="submit" class="btn btn-success btn-block">Hesapla</button>
+        </form>
+        <div id="result"></div>
+        <div id="warning" class="warning">
+            küsüratları basıp siteden ban yeme amk salagı  :)
+        </div>
+    </div>
+
+    <script>
+        document.getElementById("calculatorForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+            
+            const firstRate = parseFloat(document.getElementById("firstRate").value);
+            const secondRate = parseFloat(document.getElementById("secondRate").value);
+            const amount = parseFloat(document.getElementById("amount").value);
+            const bonusRate = parseFloat(document.getElementById("bonusRate").value) || 0;
+    
+            document.getElementById("firstRateError").style.display = "none";
+            document.getElementById("secondRateError").style.display = "none";
+            document.getElementById("amountError").style.display = "none";
+    
+            let isValid = true;
+    
+            if (isNaN(firstRate) || firstRate <= 0) {
+                document.getElementById("firstRateError").style.display = "block";
+                isValid = false;
+            }
+            if (isNaN(secondRate) || secondRate <= 0) {
+                document.getElementById("secondRateError").style.display = "block";
+                isValid = false;
+            }
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById("amountError").style.display = "block";
+                isValid = false;
+            }
+    
+            if (isValid) {
+                // İlk orana yatırılan tutar
+                const firstAmount = amount;
+    
+                // İkinci orana yatırılması gereken tutarı hesapla (ortalama kazanç)
+                const secondAmount = (firstAmount * firstRate) / (secondRate - (bonusRate / 100));
+    
+                // Toplam yatırılan miktar
+                const totalAmount = firstAmount + secondAmount;
+    
+                // Toplam kazancı hesapla (bonus dahil)
+                const totalWin = (secondAmount * secondRate) - totalAmount;
+    
+                const resultDiv = document.getElementById("result");
+    
+                // Sonuçları ekrana yazdır
+                resultDiv.innerHTML = `
+                    <div class="result-item"><span>Toplam gereken miktar:</span> ${formatCurrency(totalAmount)} TL</div>
+                    <div class="result-item"><span>İkinci orana oynamanız gereken miktar:</span> ${formatCurrency(secondAmount)} TL</div>
+                    <div class="result-item"><span>Toplam kazanç(bonus eklenmiş hali):</span> ${formatCurrency(totalWin)} TL</div>
+                `;
+            }
+        });
+    
+        function formatCurrency(value) {
+            // Değeri tam sayıya yuvarla
+            return Math.round(value);
+        }
+    </script>
+    
